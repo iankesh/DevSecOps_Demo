@@ -66,15 +66,15 @@ pipeline
                 }      
             }       
         }
-        stage ('Nmap: Web Server Port Scan') 
-        {
-		    steps 
-            {
-                sh 'rm nmap* || true'
-                sh 'docker run --rm -v "$(pwd)":/data uzyexe/nmap -sS -sV -oX nmap 104.46.51.176'
-                sh 'cat nmap'
-		    }
-	    }
+        // stage ('Nmap: Web Server Port Scan') 
+        // {
+		//     steps 
+        //     {
+        //         sh 'rm nmap* || true'
+        //         sh 'docker run --rm -v "$(pwd)":/data uzyexe/nmap -sS -sV -oX nmap 104.46.51.176'
+        //         sh 'cat nmap'
+		//     }
+	    // }
         // stage ('ZAP-Baseline: Dynamic-Application-Security-Testing') 
         // {
 		//     steps 
@@ -88,7 +88,7 @@ pipeline
             {
                 sh 'rm nikto-output.xml || true'
                 sh 'docker pull securecodebox/nikto:latest'
-                sh 'docker run --user $(id -u):$(id -g) --rm -v $(pwd):/report -i securecodebox/nikto:latest -o 104.46.51.176 -p 8080 -output /report/nikto-output.xml'
+                sh 'docker run --user $(id -u):$(id -g) --rm -v $(pwd):/report -i securecodebox/nikto:latest -h 104.46.51.176 -p 8080 -output /report/nikto-output.xml'
                 sh 'cat nikto-output.xml'   
 		    }
 	    } 
