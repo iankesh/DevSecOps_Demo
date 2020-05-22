@@ -87,8 +87,8 @@ pipeline
 		    steps 
             {
                 sh 'rm nikto-output.xml || true'
-                sh 'docker pull securecodebox/nikto:latest'
-                sh 'docker run --user $(id -u):$(id -g) --rm -v $(pwd):/report -i securecodebox/nikto:latest -o http://104.46.51.176/ -p 8080 -output /report/nikto-output.xml'
+                sh 'docker pull secfigo/nikto:latest'
+                sh 'docker run --user $(id -u):$(id -g) --rm -v $(pwd):/report -i secfigo/nikto:latest -h 104.46.51.176 -p 8080 -output /report/nikto-output.xml'
                 sh 'cat nikto-output.xml'   
 		    }
 	    } 
