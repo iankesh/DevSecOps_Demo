@@ -101,17 +101,6 @@ pipeline
         //         sh 'cat sslyze-output.json'
 		//     }
 	    // }
-
-         stage ('DefectDojo: Install') 
-        {
-		    steps 
-            {
-                sh 'git clone https://github.com/iankesh/django-DefectDojo.git && cd django-DefectDojo'
-                sh 'docker-compose build'
-                sh 'docker-compose up'
-		    }
-	    }
-
         // stage ('Upload Reports to Defect Dojo') 
         // {
 		//     steps 
