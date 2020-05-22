@@ -92,13 +92,27 @@ pipeline
         //         sh 'cat nikto-output.xml'   
 		//     }
 	    // } 
-        stage ('SSL Checks') 
+        // stage ('SSL Checks') 
+        // {
+		//     steps 
+        //     {
+        //         sh 'pip install sslyze==1.4.2'
+        //         sh 'python -m sslyze --regular 104.46.51.176:8080 --json_out sslyze-output.json'
+        //         sh 'cat sslyze-output.json'
+		//     }
+	    // }
+        stage ('Upload Reports to Defect Dojo') 
         {
 		    steps 
             {
-                sh 'pip install sslyze==1.4.2'
-                sh 'python -m sslyze --regular 104.46.51.176:8080 --json_out sslyze-output.json'
-                sh 'cat sslyze-output.json'
+                sh 'pip install requests'
+                sh 'wget https://raw.githubusercontent.com/devopssecure/webapp/master/upload-results.py'
+                sh 'chmod +x upload-results.py'
+                sh 'python upload-results.py --host localhost --api_key 66879c160803596f132aff025fee9a170366f615 --engagement_id 4 --result_file trufflehog --username admin --scanner "SSL Labs Scan"'
+                sh 'python upload-results.py --host localhost --api_key 66879c160803596f132aff025fee9a170366f615 --engagement_id 4 --result_file /var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml --username admin --scanner "Dependency Check Scan"'
+                sh 'python upload-results.py --host localhost --api_key 66879c160803596f132aff025fee9a170366f615 --engagement_id 4 --result_file nmap --username admin --scanner "Nmap Scan"'
+                sh 'python upload-results.py --host localhost --api_key 66879c160803596f132aff025fee9a170366f615 --engagement_id 4 --result_file sslyze-output.json --username admin --scanner "SSL Labs Scan"'
+                sh 'python upload-results.py --host localhost --api_key 66879c160803596f132aff025fee9a170366f615 --engagement_id 4 --result_file nikto-output.xml --username admin' 
 		    }
 	    }
     }
