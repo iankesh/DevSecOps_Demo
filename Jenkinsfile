@@ -24,8 +24,8 @@ pipeline
             {
 	            sh 'rm trufflehog || true'
 		        sh 'docker pull gesellix/trufflehog'
-		        sh 'docker run -t gesellix/trufflehog --json https://github.com/iankesh/DevSecOps_Demo.git > trufflehog'
-		        sh 'cat trufflehog'
+		        sh 'docker run -t gesellix/trufflehog --json https://github.com/iankesh/DevSecOps_Demo.git > trufflehog.json'
+		        sh 'cat trufflehog.json'
 	        }
 	    }
         stage ('OWASP-Dependency-Checker: Source-Composition-Analysis') {
@@ -109,7 +109,7 @@ pipeline
                 sh 'pip install requests'
                 sh 'wget https://raw.githubusercontent.com/devopssecure/webapp/master/upload-results.py'
                 sh 'chmod +x upload-results.py'
-                sh 'python upload-results.py --host 52.174.83.134:8081 --api_key 28228a0cba3731814a31f53cd09151dba624a1ef --engagement_id 1 --result_file trufflehog --username admin --scanner "SSL Labs Scan" || true'
+                sh 'python upload-results.py --host 52.174.83.134:8081 --api_key 28228a0cba3731814a31f53cd09151dba624a1ef --engagement_id 1 --result_file trufflehog.json --username admin --scanner "SSL Labs Scan" || true'
                 sh 'python upload-results.py --host 52.174.83.134:8081 --api_key 28228a0cba3731814a31f53cd09151dba624a1ef --engagement_id 1 --result_file /var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml --username admin --scanner "Dependency Check Scan" || true'
                 sh 'python upload-results.py --host 52.174.83.134:8081 --api_key 28228a0cba3731814a31f53cd09151dba624a1ef --engagement_id 1 --result_file nmap --username admin --scanner "Nmap Scan" || true'
                 sh 'python upload-results.py --host 52.174.83.134:8081 --api_key 28228a0cba3731814a31f53cd09151dba624a1ef --engagement_id 1 --result_file sslyze-output.json --username admin --scanner "SSL Labs Scan" || true'
