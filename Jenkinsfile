@@ -18,16 +18,16 @@ pipeline
                 ''' 
             }
         }
-        // stage ('Trufflehog: Check-Git-Secrets') 
-        // {
-		//     steps 
-        //     {
-	    //         sh 'rm trufflehog || true'
-		//         sh 'docker pull gesellix/trufflehog'
-		//         sh 'docker run -t gesellix/trufflehog --json https://github.com/iankesh/DevSecOps_demo_WebApp.git > trufflehog'
-		//         sh 'cat trufflehog'
-	    //     }
-	    // }
+        stage ('Trufflehog: Check-Git-Secrets') 
+        {
+		    steps 
+            {
+	            sh 'rm trufflehog || true'
+		        sh 'docker pull gesellix/trufflehog'
+		        sh 'docker run -t gesellix/trufflehog --json https://github.com/iankesh/DevSecOps_demo_WebApp.git > trufflehog'
+		        sh 'cat trufflehog'
+	        }
+	    }
         // stage ('OWASP-Dependency-Checker: Source-Composition-Analysis') {
 		//     steps 
         //     {
