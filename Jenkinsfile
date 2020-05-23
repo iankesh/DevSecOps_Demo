@@ -32,7 +32,7 @@ pipeline
 		    steps 
             {
                 sh 'rm owasp-* || true'
-                sh 'wget https://github.com/iankesh/DevSecOps_Demo/blob/master/owasp-dependency-check.sh'	
+                sh 'wget https://raw.githubusercontent.com/iankesh/DevSecOps_Demo/master/owasp-dependency-check.sh'	
                 sh 'chmod +x owasp-dependency-check.sh'
                 sh 'bash owasp-dependency-check.sh'
                 sh 'cat /var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml'
