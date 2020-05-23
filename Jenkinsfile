@@ -119,11 +119,11 @@ pipeline
         {
 		    steps 
             {
-                sh 'docker rm -f $(docker ps -a | grep gesellix/trufflehog | awk {'print $1'})'
-                sh 'docker rm -f $(docker ps -a | grep owasp/zap2docker-stable | awk {'print $1'})'
-                sh 'docker rm -f $(docker ps -a | grep uzyexe/nmap | awk {'print $1'})'
-                sh 'docker rm -f $(docker ps -a | grep secfigo/nikto | awk {'print $1'})'
-                sh 'docker rm -f $(docker ps -a | grep owasp/dependency-check | awk {'print $1'})'
+                sh "docker rm -f $(docker ps -a | grep gesellix/trufflehog | awk {'print $1'})"
+                sh "docker rm -f $(docker ps -a | grep owasp/zap2docker-stable | awk {'print $1'})"
+                sh "docker rm -f $(docker ps -a | grep uzyexe/nmap | awk {'print $1'})"
+                sh "docker rm -f $(docker ps -a | grep secfigo/nikto | awk {'print $1'})"
+                sh "docker rm -f $(docker ps -a | grep owasp/dependency-check | awk {'print $1'})"
 		    }
 	    }
     }
