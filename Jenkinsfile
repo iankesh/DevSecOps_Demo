@@ -7,7 +7,7 @@ pipeline
     }
     stages 
     {
-        stage ('Initialize') 
+        stage ('Initialize Step') 
         {
             steps 
             {
@@ -18,7 +18,7 @@ pipeline
                 ''' 
             }
         }
-        stage ('Trufflehog: Check-Git-Secrets') 
+        stage ('TRUFFLEHOG: Check-Git-Secrets') 
         {
 		    steps 
             {
@@ -28,7 +28,7 @@ pipeline
 		        sh 'cat trufflehog.json'
 	        }
 	    }
-        stage ('OWASP-Dependency-Checker: Source-Composition-Analysis') {
+        stage ('OWASP DEPENDENCY CHECKER: Source-Composition-Analysis') {
 		    steps 
             {
                 sh 'rm owasp-* || true'
@@ -38,7 +38,7 @@ pipeline
                 sh 'cat /var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml'
 		    }
 	    }
-        stage ('Sonarqube: Static-Application-Security-Testing')
+        stage ('SONARQUBE: Static-Application-Security-Testing')
         {
 		    steps 
             {
@@ -49,14 +49,14 @@ pipeline
 		        }
 		    }
 	    }
-        stage ('Build') 
+        stage ('BUILD Step') 
         {
             steps 
             {
                 sh 'mvn clean package'
             }
         }  
-        stage ('Deploy-To-Tomcat') 
+        stage ('Deploy-To-Tomcat Step') 
         {
             steps 
             {
@@ -66,7 +66,7 @@ pipeline
                 }      
             }       
         }
-        stage ('Nmap: Web-Server-Port-Scan') 
+        stage ('NMAP: Web-Server-Port-Scan') 
         {
 		    steps 
             {
@@ -75,14 +75,14 @@ pipeline
                 sh 'cat nmap'
 		    }
 	    }
-        stage ('ZAP-Baseline: Dynamic-Application-Security-Testing') 
+        stage ('ZAP BASELINE: Dynamic-Application-Security-Testing') 
         {
 		    steps 
             {    
                 sh 'docker run -t owasp/zap2docker-stable zap-baseline.py -t http://104.46.51.176:8080/webapp/ || true'
 			}
 		} 
-        stage ('Nikto-Web-Scan: Web-Server-Vulnerabilities') 
+        stage ('NIKTO WEB SCAN: Web-Server-Vulnerabilities') 
         {
 		    steps 
             {
@@ -92,7 +92,7 @@ pipeline
                 sh 'cat nikto-output.xml'   
 		    }
 	    } 
-        stage ('SSL Checks') 
+        stage ('SSL CHECKS: Checking ssl') 
         {
 		    steps 
             {
@@ -101,7 +101,7 @@ pipeline
                 sh 'cat sslyze-output.json'
 		    }
 	    }
-        stage ('Upload Reports to Defect Dojo') 
+        stage ('DEFECT DOJO: Upload-Reports') 
         {
 		    steps 
             {
@@ -116,7 +116,7 @@ pipeline
                 sh 'python upload-results.py --host 52.174.83.134:8081 --api_key 28228a0cba3731814a31f53cd09151dba624a1ef --engagement_id 1 --result_file nikto-output.xml --username admin --scanner "Nikto Scan" || true' 
 		    }
 	    }
-        stage ('Clean Running Docker Containers') 
+        stage ('CLEAN: Running Docker Containers') 
         {
 		    steps 
             {
