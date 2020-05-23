@@ -38,17 +38,17 @@ pipeline
                 sh 'cat /var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml'
 		    }
 	    }
-        // stage ('Sonarqube: Static-Application-Security-Testing')
-        // {
-		//     steps 
-        //     {
-		//         withSonarQubeEnv('Sonar') 
-        //         {
-        //             sh 'mvn sonar:sonar'
-        //             sh 'cat target/sonar/report-task.txt'
-		//         }
-		//     }
-	    // }
+        stage ('Sonarqube: Static-Application-Security-Testing')
+        {
+		    steps 
+            {
+		        withSonarQubeEnv('Sonarsonarqube') 
+                {
+                    sh 'mvn sonar:sonar'
+                    sh 'cat target/sonar/report-task.txt'
+		        }
+		    }
+	    }
         stage ('Build') 
         {
             steps 
