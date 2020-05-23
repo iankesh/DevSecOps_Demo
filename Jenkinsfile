@@ -105,14 +105,15 @@ pipeline
         {
 		    steps 
             {
+                sh 'rm upload-results.py* || true'
                 sh 'pip install requests'
-                // sh 'wget https://raw.githubusercontent.com/devopssecure/webapp/master/upload-results.py'
+                sh 'wget https://raw.githubusercontent.com/devopssecure/webapp/master/upload-results.py'
                 sh 'chmod +x upload-results.py'
-                sh 'python upload-results.py --host 52.174.83.134 --api_key 28228a0cba3731814a31f53cd09151dba624a1ef --engagement_id 4 --result_file trufflehog --username admin --scanner "SSL Labs Scan"'
-                sh 'python upload-results.py --host 52.174.83.134 --api_key 28228a0cba3731814a31f53cd09151dba624a1ef --engagement_id 4 --result_file /var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml --username admin --scanner "Dependency Check Scan"'
-                sh 'python upload-results.py --host 52.174.83.134 --api_key 28228a0cba3731814a31f53cd09151dba624a1ef --engagement_id 4 --result_file nmap --username admin --scanner "Nmap Scan"'
-                sh 'python upload-results.py --host 52.174.83.134 --api_key 28228a0cba3731814a31f53cd09151dba624a1ef --engagement_id 4 --result_file sslyze-output.json --username admin --scanner "SSL Labs Scan"'
-                sh 'python upload-results.py --host 52.174.83.134 --api_key 28228a0cba3731814a31f53cd09151dba624a1ef --engagement_id 4 --result_file nikto-output.xml --username admin' 
+                // sh 'python upload-results.py --host 52.174.83.134:8081 --api_key 28228a0cba3731814a31f53cd09151dba624a1ef --engagement_id 1 --result_file trufflehog --username admin --scanner "SSL Labs Scan"'
+                sh 'python upload-results.py --host 52.174.83.134:8081 --api_key 28228a0cba3731814a31f53cd09151dba624a1ef --engagement_id 1 --result_file /var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml --username admin --scanner "Dependency Check Scan"'
+                // sh 'python upload-results.py --host 52.174.83.134:8081 --api_key 28228a0cba3731814a31f53cd09151dba624a1ef --engagement_id 1 --result_file nmap --username admin --scanner "Nmap Scan"'
+                sh 'python upload-results.py --host 52.174.83.134:8081 --api_key 28228a0cba3731814a31f53cd09151dba624a1ef --engagement_id 1 --result_file sslyze-output.json --username admin --scanner "SSL Labs Scan"'
+                sh 'python upload-results.py --host 52.174.83.134:8081 --api_key 28228a0cba3731814a31f53cd09151dba624a1ef --engagement_id 1 --result_file nikto-output.xml --username admin' 
 		    }
 	    }
         stage ('Clean Running Docker Containers') 
