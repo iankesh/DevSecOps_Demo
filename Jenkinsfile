@@ -115,5 +115,16 @@ pipeline
         //         sh 'python upload-results.py --host localhost --api_key 66879c160803596f132aff025fee9a170366f615 --engagement_id 4 --result_file nikto-output.xml --username admin' 
 		//     }
 	    // }
+        stage ('Clean Running Docker Containers') 
+        {
+		    steps 
+            {
+                sh 'docker rm -f $(docker ps -a | grep gesellix/trufflehog | awk {'print $1'}) || true'
+                sh 'docker rm -f $(docker ps -a | grep owasp/zap2docker-stable | awk {'print $1'}) || true'
+                sh 'docker rm -f $(docker ps -a | grep uzyexe/nmap | awk {'print $1'}) || true'
+                sh 'docker rm -f $(docker ps -a | grep secfigo/nikto | awk {'print $1'}) || true'
+                sh 'docker rm -f $(docker ps -a | grep owasp/dependency-check | awk {'print $1'}) || true'
+		    }
+	    }
     }
 }
