@@ -18,7 +18,7 @@ pipeline
                 ''' 
             }
         }
-        stage ('Pre-Build Checks')
+        stage ('Pre-Build Security Checks')
         {
             parallel
             {
@@ -72,7 +72,7 @@ pipeline
                 }      
             }       
         }
-        stage ('Post-Deployment Checks')
+        stage ('Post-Deployment Security Checks')
         {
             parallel
             {
@@ -133,7 +133,7 @@ pipeline
                 sh 'python upload-results.py --host 52.174.83.134:8081 --api_key 28228a0cba3731814a31f53cd09151dba624a1ef --engagement_id 1 --result_file nikto-output.xml --username admin --scanner "Nikto Scan" || true' 
             }
         }
-        stage ('CLEAN: Running Docker Containers') 
+        stage ('CLEAN: Docker Containers') 
         {
 		    steps 
             {
