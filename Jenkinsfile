@@ -103,7 +103,7 @@ pipeline
 	    }
 	    stage ('DEFECT DOJO: Upload-Reports') 
         {
-            when (BRANCH_NAME != 'master') {
+            when (branch != 'master') {
 		    steps 
             {
                 sh 'rm upload-results.py* || true'
