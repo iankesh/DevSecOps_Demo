@@ -18,37 +18,43 @@ pipeline
                 ''' 
             }
         }
-        stage ('TRUFFLEHOG: Check-Git-Secrets') 
+        stage ('Pre-Build Checks')
         {
-		    steps 
+            parallel
             {
-	            sh 'rm trufflehog* || true'
-		        sh 'docker pull gesellix/trufflehog'
-		        sh 'docker run -t gesellix/trufflehog --json https://github.com/iankesh/DevSecOps_Demo.git > trufflehog.json'
-		        sh 'cat trufflehog.json'
-	        }
-	    }
-        stage ('OWASP DEPENDENCY CHECKER: Source-Composition-Analysis') {
-		    steps 
-            {
-                sh 'rm owasp-* || true'
-                sh 'wget https://raw.githubusercontent.com/iankesh/DevSecOps_Demo/master/owasp-dependency-check.sh'	
-                sh 'chmod +x owasp-dependency-check.sh'
-                sh 'bash owasp-dependency-check.sh'
-                sh 'cat /var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml'
-		    }
-	    }
-        stage ('SONARQUBE: Static-Application-Security-Testing')
-        {
-		    steps 
-            {
-		        withSonarQubeEnv('sonarqube') 
+                stage ('TRUFFLEHOG: Check-Git-Secrets') 
                 {
-                    sh 'mvn sonar:sonar'
-                    sh 'cat target/sonar/report-task.txt'
-		        }
-		    }
-	    }
+                    steps 
+                    {
+                        sh 'rm trufflehog* || true'
+                        sh 'docker pull gesellix/trufflehog'
+                        sh 'docker run -t gesellix/trufflehog --json https://github.com/iankesh/DevSecOps_Demo.git > trufflehog.json'
+                        sh 'cat trufflehog.json'
+                    }
+                }
+                stage ('OWASP DEPENDENCY CHECKER: Source-Composition-Analysis') {
+                    steps 
+                    {
+                        sh 'rm owasp-* || true'
+                        sh 'wget https://raw.githubusercontent.com/iankesh/DevSecOps_Demo/master/owasp-dependency-check.sh'	
+                        sh 'chmod +x owasp-dependency-check.sh'
+                        sh 'bash owasp-dependency-check.sh'
+                        sh 'cat /var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml'
+                    }
+                }
+                stage ('SONARQUBE: Static-Application-Security-Testing')
+                {
+                    steps 
+                    {
+                        withSonarQubeEnv('sonarqube') 
+                        {
+                            sh 'mvn sonar:sonar'
+                            sh 'cat target/sonar/report-task.txt'
+                        }
+                    }
+                }
+            }
+        }
         stage ('BUILD Step') 
         {
             steps 
