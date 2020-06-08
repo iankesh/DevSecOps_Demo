@@ -101,6 +101,21 @@ pipeline
                 sh 'cat sslyze-output.json'
 		    }
 	    }
+	stage ('DEFECT DOJO: Upload-Reports') 
+        {
+		    steps 
+            {
+                sh 'rm upload-results.py* || true'
+                sh 'pip install requests'
+                sh 'wget https://raw.githubusercontent.com/iankesh/DevSecOps_Demo/master/upload-results.py'
+                sh 'chmod +x upload-results.py'
+                sh 'python upload-results.py --host 52.174.83.134:8081 --api_key 28228a0cba3731814a31f53cd09151dba624a1ef --engagement_id 1 --result_file trufflehog.json --username admin --scanner "SSL Labs Scan" || true'
+                sh 'python upload-results.py --host 52.174.83.134:8081 --api_key 28228a0cba3731814a31f53cd09151dba624a1ef --engagement_id 1 --result_file /var/lib/jenkins/OWASP-Dependency-Check/reports/dependency-check-report.xml --username admin --scanner "Dependency Check Scan" || true'
+                sh 'python upload-results.py --host 52.174.83.134:8081 --api_key 28228a0cba3731814a31f53cd09151dba624a1ef --engagement_id 1 --result_file nmap --username admin --scanner "Nmap Scan" || true'
+                sh 'python upload-results.py --host 52.174.83.134:8081 --api_key 28228a0cba3731814a31f53cd09151dba624a1ef --engagement_id 1 --result_file sslyze-output.json --username admin --scanner "SSL Labs Scan" || true'
+                sh 'python upload-results.py --host 52.174.83.134:8081 --api_key 28228a0cba3731814a31f53cd09151dba624a1ef --engagement_id 1 --result_file nikto-output.xml --username admin --scanner "Nikto Scan" || true' 
+		    }
+	    }
 
         stage ('CLEAN: Running Docker Containers') 
         {
