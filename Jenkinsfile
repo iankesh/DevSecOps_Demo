@@ -71,7 +71,7 @@ pipeline
 		    steps 
             {
                 sh 'rm nmap* || true'
-                sh 'docker run --rm -v "$(pwd)":/data uzyexe/nmap -sS -sV -oX nmap 104.46.51.176'
+                sh 'docker run --rm -v "$(pwd)":/data uzyexe/nmap -sS -sV -oX nmap 51.136.57.150'
                 sh 'cat nmap'
 		    }
 	    }
@@ -79,7 +79,7 @@ pipeline
         {
 		    steps 
             {    
-                sh 'docker run -t owasp/zap2docker-stable zap-baseline.py -t http://104.46.51.176:8080/webapp/ || true'
+                sh 'docker run -t owasp/zap2docker-stable zap-baseline.py -t http://51.136.57.150:8080/webapp/ || true'
 			}
 		} 
         stage ('NIKTO WEB SCAN: Web-Server-Vulnerabilities') 
@@ -88,7 +88,7 @@ pipeline
             {
                 sh 'rm nikto-output.xml || true'
                 sh 'docker pull secfigo/nikto:latest'
-                sh 'docker run --user $(id -u):$(id -g) --rm -v $(pwd):/report -i secfigo/nikto:latest -h 104.46.51.176 -p 8080 -output /report/nikto-output.xml'
+                sh 'docker run --user $(id -u):$(id -g) --rm -v $(pwd):/report -i secfigo/nikto:latest -h 51.136.57.150 -p 8080 -output /report/nikto-output.xml'
                 sh 'cat nikto-output.xml'   
 		    }
 	    } 
@@ -97,7 +97,7 @@ pipeline
 		    steps 
             {
                 sh 'pip install sslyze==1.4.2'
-                sh 'python -m sslyze --regular 104.46.51.176:8080 --json_out sslyze-output.json'
+                sh 'python -m sslyze --regular 51.136.57.150:8080 --json_out sslyze-output.json'
                 sh 'cat sslyze-output.json'
 		    }
 	    }
