@@ -96,6 +96,7 @@ pipeline
         {
 		    steps 
             {
+                sh 'rm -rf ~/.local || true'
                 sh 'pip install sslyze==1.4.2'
                 sh 'python -m sslyze --regular 51.136.57.150:8080 --json_out sslyze-output.json'
                 sh 'cat sslyze-output.json'
