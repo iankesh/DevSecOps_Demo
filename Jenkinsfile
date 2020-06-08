@@ -62,7 +62,7 @@ pipeline
             {
                 sshagent(['tomcat-key']) 
                 {
-                    sh 'scp -o StrictHostKeyChecking=no target/WebApp.war devops@104.46.51.176:/home/devops/apache-tomcat-8.5.38/webapps/webapp.war'
+                    sh 'scp -o StrictHostKeyChecking=no target/WebApp.war devops@51.136.57.150:/home/devops/apache-tomcat-8.5.55/webapps/webapp.war'
                 }      
             }       
         }
