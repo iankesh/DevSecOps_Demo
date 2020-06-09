@@ -69,7 +69,7 @@
             <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
         </div>
         <div class="col-md-4">
-            <h2>Kishore</h2>
+            <h2>Vikash Kumar</h2>
             <p>Gender: Male </p>
             <p>City: Bangalore </p>
             <p>Age: 24 </p>
